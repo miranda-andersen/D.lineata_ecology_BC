@@ -1,0 +1,29 @@
+
+
+####stable isotope analysis with siar
+
+library(siar)
+
+##linear regression to test if lipid correction is needed
+
+ea_irms_raw <- read.csv('EA_IRMS_results.csv')
+
+model <- lm(thirteenC ~ CN, data = ea_irms_raw)
+lm <- plot(ea_irms_raw$CN, ea_irms_raw$thirteenC)
+abline(model, col = "blue")
+
+summary(model) #F = 8.493, df = 36, p = 0.006; correction applied based on Smyntek et al. 2007
+
+##plot siar model using lipid-corrected data and trophic discrimination factors
+
+data <- read.table('consumer.txt',header=TRUE)
+sources <- read.table('grouped_sources.txt',header=TRUE)
+tdf <- read.table('grouped_tdf.txt',header=TRUE)
+
+#siarmodel using tdfs from Zabala et al. 2013
+siarmodel <- siarmcmcdirichletv4(data,sources,tdf,concdep=0,500000,50000)
+
+siarplotdata(siarmodel, iso=c(2,1), aes(legend = "right"))
+siarmatrixplot(siarmodel)
+siarhistograms(siarmodel)
+siarproportionbygroupplot(siarmodel)
