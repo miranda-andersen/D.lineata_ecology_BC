@@ -1,8 +1,121 @@
 
 
-####stable isotope analysis with siar
-
+##load packages; note some may be redundant
+library(readr)
+library(tidyr)
+library(plyr)
+library(dplyr)
+library(MuMIn)
+library(visreg)
+library(car)
+library(lmerTest)
+library(RVAideMemoire)
+library(multcomp)
+library(sjPlot)
+library(grid)
+library(lubridate)
+library(DHARMa)
+library(effects)
+library(DMwR)
+library(lme4)
+library(numDeriv)
+library(RCurl) 
+library(ggplot2)
+library(reshape2)
+library(plyr)
+library(devtools)
+library(nlme)
+library(tidyverse)
+library(performance)
+library(see)
+library(qqplotr)
+library(emmeans)
 library(siar)
+
+theme_dumene <- theme_classic() +
+  theme(axis.title.y = element_text(size = 18, face= "bold"),
+        axis.title.x = element_text(size = 16, face= "bold"),
+        axis.text = element_text(size = 12, colour = "black"),
+        axis.text.x = element_text(margin = margin(t = 12, unit = "pt")),
+        axis.text.y = element_text(margin = margin(r = 12)),
+        legend.title = element_text(size = 16),legend.text = element_text( size = 14)) 
+
+####supplementary field survey analyses
+
+#effect of June 2021 heatdome on anemone abundance 
+
+heat <- read.csv("post_heatwave_abundance.csv")
+
+heat_nb_model <- glm.nb(value ~ condition, data = heat)
+summary(heat_nb_model)
+
+##vertical distribution of anemones at two sites
+
+dunbar <- read.csv("dunbar_distribution.csv") #dunbar st site
+brockton <- read.csv("brockton_distribution.csv") #brockton point site
+
+dunbar %>%
+  group_by(Height) %>%
+  summarise(se = sd(Abundance)/sqrt(length(Abundance)), Mean = mean(Abundance)) 
+
+brockton %>%
+  group_by(Height) %>%
+  summarise(se = sd(Abundance)/sqrt(length(Abundance)), Mean = mean(Abundance)) 
+
+ggplot(dunbar, aes(x=Height, y=Mean)) + 
+  geom_pointrange(aes(ymin=Mean-se, ymax=Mean+se)) +
+  xlab("Shore height (m)") + ylab("Individuals per min") +
+  theme_dumene
+
+ggplot(brockton, aes(x=Height, y=Mean)) + 
+  geom_pointrange(aes(ymin=Mean-se, ymax=Mean+se)) +
+  xlab("Shore height (m)") + ylab("Individuals per min") +
+  theme_dumene
+
+##note that abundance field data is provided in supplement of Andersen & Harely, 2025
+
+####feeding trials
+
+##effect of prey size on ingestion
+
+facilitated <- read.csv("facilitated_trials.csv") # referred to as "active" trials in data
+nonfacilitated <- read.csv("nonfacilitated_trials.csv") #"passive" in data
+
+facilitated_lm <- lm(data= facilitated, ingestion ~ size)
+summary(facilitated_lm)
+
+nonfacilitated_lm <- lm(data= nonfacilitated, ingestion ~ size)
+summary(nonfacilitated_lm)
+
+##trial ingestion visualized as categorical degrees of digestion
+
+digestion_facilitated <- read.csv("long_active_new.csv")
+digestion_nonfaciliated <- read.csv("long_passive_new.csv")
+
+digestion_facilitated[is.na(digestion_facilitated)] = 0
+
+dig_fac_graph <- digestion_facilitated %>%
+  ggplot(aes(x= reorder(prey,-group),value, fill = factor(digestion, levels=c('complete', 'partial', 'none'))))+
+  geom_bar(stat="identity", alpha=.6, width=.6)+
+  coord_flip() +
+  xlab("Prey item") + ylab("Percent ingested") +
+  scale_fill_discrete(name="Digestion", breaks=c("complete", "partial", "none"), labels=c("Complete","Partial","None")) +
+  theme_dumene %>% theme(legend.position = "none")+ 
+  scale_fill_manual(name="Digestion", breaks=c("complete", "partial", "none"), labels=c("Complete","Partial","None"), values = c("darkorange2", "#F9BA3B", "#F9DCC3"))
+
+digestion_nonfaciliated[is.na(digestion_nonfaciliated)] = 0
+
+dig_nonfac_graph <- digestion_nonfaciliated %>%
+  ggplot(aes(reorder(prey, -group), value, fill = factor(digestion, levels=c('complete', 'partial', 'none'))))+
+  geom_bar(stat="identity", alpha=.6, width=.6)+
+  coord_flip() +
+  xlab("Prey item") + ylab("Percent ingested") +
+  scale_fill_discrete(name="Digestion", breaks=c("complete", "partial", "none"), labels=c("Complete","Partial","None")) +
+  scale_y_continuous(limits=c(0, 100))+
+  theme_dumene %>% theme(legend.position = "right")+ 
+  scale_fill_manual(name="Digestion", breaks=c("complete", "partial", "none"), labels=c("Complete","Partial","None"), values = c("darkorange2", "#F9BA3B", "#F9DCC3"))
+
+####stable isotope analysis
 
 ##linear regression to test if lipid correction is needed
 
@@ -27,3 +140,121 @@ siarplotdata(siarmodel, iso=c(2,1), aes(legend = "right"))
 siarmatrixplot(siarmodel)
 siarhistograms(siarmodel)
 siarproportionbygroupplot(siarmodel)
+
+####mussel faciliation experiments
+
+
+####anemone density manipulation experiment
+
+biodiv <- read.csv("nat_biodiv.csv")
+view(biodiv)
+str(biodiv)
+
+##visualize data
+
+nat_biodiv_fig <- read.csv("nat_biodiv_fig.csv")
+view(nat_biodiv_fig)
+
+nat_biodiv_fig$Treatment <- as.factor(nat_biodiv_fig$Treatment)
+head(nat_biodiv_fig)
+
+nat_biodiv_fig$Date <- as.Date(nat_biodiv_fig$Date) 
+head(nat_biodiv_fig)
+
+nat_biodiv <- nat_biodiv_fig %>%
+  drop_na() %>% 
+  group_by(Treatment, Date)%>%
+  summarise(se = sd(Richness)/sqrt(length(Richness)), Richness = mean(Richness))
+
+biodiv_fig <- ggplot(nat_biodiv, aes(Date, Richness)) +
+  geom_line(aes(linetype = Treatment, color = Treatment), position = position_dodge(3), size = 0.7)+
+  geom_point(aes(color = Treatment), position = position_dodge(3), size = 2) +
+  labs(x="Date", y="Mean richness") + 
+  geom_errorbar(aes(ymin = Richness-se, ymax = Richness+se, color = Treatment),position = position_dodge(3), width = 10, size = 0.5)+
+  scale_linetype_manual(name="Treatment", breaks = c("Elevated","Control", "Removed"), labels=c("Elevated","Control", "Removed"), values = c(6,1,2)) +
+  scale_color_manual(name="Treatment", breaks = c("Elevated","Control", "Removed"), labels=c("Elevated","Control", "Removed"), values = c("red", "orange", "blue")) +
+  scale_x_date(date_breaks = "2 month" , date_labels = "%b %Y")+
+  theme_dumene
+
+biodiv_fig + annotate("rect", xmin = as.Date("2020-10-15", "%Y-%m-%d"), 
+  xmax = as.Date("2021-01-05",  "%Y-%m-%d"), ymin = -0.35, ymax = 0.55, alpha = .1, fill = "black") +
+  annotate("rect", xmin = as.Date("2021-06-25", "%Y-%m-%d"), 
+  xmax = as.Date("2021-06-30",  "%Y-%m-%d"), ymin = -0.35, ymax = 0.55, alpha = 0.5, fill = "firebrick") +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1, vjust = 1.25))
+
+##preparing for linear mixed effects modelling
+
+biodiv$Treatment<-revalue(biodiv$Treatment, c("Control"=1))
+biodiv$Treatment<-revalue(biodiv$Treatment, c("Elevated"=2))
+biodiv$Treatment<-revalue(biodiv$Treatment, c("Removed"=3))
+
+biodiv$Census <- as.factor(biodiv$Census)
+biodiv$Site <- as.factor(biodiv$Site)
+biodiv$Treatment <- as.factor(biodiv$Treatment)
+biodiv$Tidepool <- as.factor(biodiv$Tidepool)
+biodiv$Sample_time <- as.factor(biodiv$Sample_time)
+
+biodiv$Light_initial <- as.numeric(biodiv$Light_initial)
+biodiv$Salinity <- as.numeric(biodiv$Salinity)
+
+biodiv$Date<-as.Date(biodiv$Date)
+
+str(biodiv)
+
+ready_biodiv <- data.frame(site=(biodiv$Site),
+                        diversity=scale(biodiv$H_change),
+                        salinity=scale(biodiv$Salinity),
+                        time=(biodiv$Sample_time), 
+                        height=scale(biodiv$Height),
+                        volume=scale(biodiv$Volume),
+                        date=scale(biodiv$Date), 
+                        census=(biodiv$Census),
+                        initial=scale(biodiv$H_inital),
+                        id=(biodiv$Tidepool),
+                        treatment=(biodiv$Treatment),
+                        light=scale(biodiv$Light_initial))
+
+str(ready_biodiv)
+
+##linear mixed model (gaussian distribution) 
+#interested in the effect of treatment (3 levels of anemone density:control,elevated,zero/removed) on change in diversity over time 
+#note that multiple models were tried but this one was the best fit
+
+biodiv_m1<-lmer(diversity~date*treatment+height+volume+salinity+initial+time+light+(1|id), ready_biodiv)
+
+summary(biodiv_m1)
+visreg(biodiv_m1)
+tab_model(biodiv_m1)
+
+system.time(sr1 <- simulateResiduals(biodiv_m1))
+plot(sr1)
+
+check_model(biodiv_m1)
+
+#removing insignificant fixed factors (i.e. light, volume, salinity, height)
+
+biodiv_m2<-lmer(diversity~treatment*date+initial+time+salinity+(1|id), ready_biodiv)
+
+#run a posthoc
+
+biodiv_emm <- emmeans(biodiv_m2, ~ treatment*date)
+biodiv_emm
+contrast(biodiv_emm)
+pairs(biodiv_emm)
+
+summary(biodiv_m2)
+visreg(biodiv_m2)
+tab_model(biodiv_m2,
+          col.order = c("est","ci","p"),
+                        pred.labels = c("Intercept", "Elevated treatment", "Removed treatment", "Census date",
+                                        "Initial diversity", "Census time of day","Salinity",
+                                        "Elevated * Census date", "Removed * Census date"),
+                        dv.labels = c("Change in diversity from initial"),
+                        string.ci = "Conf. Int (95%)",
+                        string.p = "P-Value")
+
+system.time(sr2 <- simulateResiduals(biodiv_m2))
+plot(sr2)
+
+check_model(biodiv_m2)
+
