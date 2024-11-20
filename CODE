@@ -4,14 +4,15 @@
 # Author: Miranda Nicole Andersen
 # Institution: University of British Columbia
 # Contact: andersenm@sun.ac.za
-# Repository: C
-# Version: 1.0.0
-# License: MIT License (see LICENSE file for details)
+# Repository: https://github.com/miranda-andersen/
+#             D.lineata_ecology_BC.git
+# Version: 1.0
+# License: General Public License v3.0 (see LICENSE file for details)
 # Date: 2024-01-11
 # -------------------------------------------------------------------
 # Description:
 # This script performs the data analyses and visualizations included
-# in the manuscript of the same title. Some analyses are omitted here
+# in the manuscript of the same title. 
 # 
 # Usage:
 # - Required inputs: .csv and .txt files included in DATA folder
@@ -25,7 +26,7 @@
 #   siar(now MixSIAR)
 # -------------------------------------------------------------------
 
-##set theme
+##Set theme
 theme_dumene <- theme_classic() +
   theme(axis.title.y = element_text(size = 18, face= "bold"),
         axis.title.x = element_text(size = 16, face= "bold"),
@@ -34,14 +35,25 @@ theme_dumene <- theme_classic() +
         axis.text.y = element_text(margin = margin(r = 12)),
         legend.title = element_text(size = 16),legend.text = element_text( size = 14)) 
 
-####supplementary field survey analyses
+####Supplementary Field Survey Analyses
+##note that anemone abundance field data is provided in the supplement of Andersen & Harely, 2025 
+  and was analyzed using negative binomial regressions. code is available upon request
 
-#effect of June 2021 heatdome on anemone abundance 
+##effect of June 2021 heatdome on anemone abundance 
 
 heat <- read.csv("post_heatwave_abundance.csv")
 
 heat_nb_model <- glm.nb(value ~ condition, data = heat)
 summary(heat_nb_model)
+
+abundance <- heat %>%
+  ggplot(aes(reorder(site, desc(value)), value, fill = factor(condition, levels=c('old', 'pre', 'post')))) + 
+    geom_bar(position="dodge", alpha=.75, stat="identity") +
+    xlab("Site") + ylab("Discovery rate (# individuals/hr)") +
+    scale_fill_discrete(name="Condition", breaks=c("old", "pre", "post"), labels=c("2016","2021 pre-heatwave", "2021 post-heatwave")) +
+  theme_dumene
+abundance + theme(legend.position = "right")+ 
+  scale_fill_manual(name="Condition", breaks=c("old", "pre", "post"), labels=c("2016","2021 pre-heatwave", "2021 post-heatwave"), values = c("#F9DCC3", "#F9BA3B","darkorange2"))
 
 ##vertical distribution of anemones at two sites
 
@@ -66,9 +78,7 @@ ggplot(brockton, aes(x=Height, y=Mean)) +
   xlab("Shore height (m)") + ylab("Individuals per min") +
   theme_dumene
 
-##note that abundance field data is provided in supplement of Andersen & Harely, 2025
-
-####feeding trials
+####Feeding Trials
 
 ##effect of prey size on ingestion
 
@@ -109,7 +119,39 @@ dig_nonfac_graph <- digestion_nonfaciliated %>%
   theme_dumene %>% theme(legend.position = "right")+ 
   scale_fill_manual(name="Digestion", breaks=c("complete", "partial", "none"), labels=c("Complete","Partial","None"), values = c("darkorange2", "#F9BA3B", "#F9DCC3"))
 
-####stable isotope analysis
+##response plots from facilitated trials
+
+active_response <- read.csv("active_break_down.csv")
+
+response_graph <- active_response %>%
+  ggplot(aes(reorder(prey,desc(order)), percent, fill = factor(response, levels=c('ingest', 'grab/reject', 'reject'))))+
+  geom_bar(stat="identity", alpha=.6, width=.6, position = position_fill(reverse = TRUE))+
+  coord_flip() +
+  xlab("Prey item") + ylab("Relative frequency of response") +
+  scale_fill_discrete(name="Response", breaks=c('ingest', 'grab/reject', 'reject'), labels=c("Ingestion","Grab-rejection","Rejection")) +
+  theme_dumene
+
+response_graph + theme(legend.position = "right")+ 
+  scale_fill_manual(name="Response", breaks=c('ingest', 'grab/reject', 'reject'), labels=c("Ingestion","Grab-rejection","Rejection"), values = c("orange", "cornflowerblue", "darkblue"))
+
+##mean ingestion time from facilitated trials
+
+i_time <- read.csv("ingestion_time.csv")
+
+ingestion <-i_time %>%
+  group_by(prey, order) %>%
+  summarise(se = sd(time)/sqrt(length(time)), time = mean(time)) 
+ 
+ggplot(i_time, aes(x= reorder(prey,time),time)) +
+   geom_col(data = ingestion, fill = "orange", alpha=.6, width=.6) +
+   geom_jitter(width = 0.05, height = 1,color = "black", alpha=.8) + 
+  geom_errorbar( aes( ymin=time-se, ymax=time+se), 
+                 data = ingestion, width = 0.2) +
+  coord_flip() +
+  xlab("Prey item") + ylab("Mean ingestion time (min)") +
+  theme_dumene
+
+####Stable Isotope Analysis
 
 ##linear regression to test if lipid correction is needed
 
@@ -135,10 +177,10 @@ siarmatrixplot(siarmodel)
 siarhistograms(siarmodel)
 siarproportionbygroupplot(siarmodel)
 
-####mussel faciliation experiments
+####Mussel Faciliation Experiments
 
 
-####anemone density manipulation experiment
+####Anemone Density Manipulation Experiment
 
 biodiv <- read.csv("nat_biodiv.csv")
 view(biodiv)
