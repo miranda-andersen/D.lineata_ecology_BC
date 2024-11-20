@@ -177,7 +177,12 @@ siarmatrixplot(siarmodel)
 siarhistograms(siarmodel)
 siarproportionbygroupplot(siarmodel)
 
+####Anemone-predator feeding trials and abundance surveys
+##note that this data is available in the supplementary material of Andersen & Harley, 2025 
+  code is available upon request
+
 ####Mussel Faciliation Experiments
+
 
 
 ####Anemone Density Manipulation Experiment
