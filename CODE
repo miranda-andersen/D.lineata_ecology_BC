@@ -1,37 +1,31 @@
+# Title: Assessing the ecological relationships of the orange-
+# striped green sea anemone, Diadumene lineata, as a non-indigenous 
+# species in British Columbia, Canada
+# Author: Miranda Nicole Andersen
+# Institution: University of British Columbia
+# Contact: andersenm@sun.ac.za
+# Repository: C
+# Version: 1.0.0
+# License: MIT License (see LICENSE file for details)
+# Date: 2024-01-11
+# -------------------------------------------------------------------
+# Description:
+# This script performs the data analyses and visualizations included
+# in the manuscript of the same title. Some analyses are omitted here
+# 
+# Usage:
+# - Required inputs: .csv and .txt files included in DATA folder
+# 
+# Dependencies:
+# - R version or higher
+# - Packages: read, tidyr, plyr, dplyr, MuMIn, visreg, car, lmerTest, 
+#   RVAideMemoire, muktcomp, siPlot, grid, lubridate, DHARMa, 
+#   effects, DMwR, lme4, numDeriv, RCurl, ggplot2, reshape2,
+#   devtools, nlme, tidyverse, performance, see, qqplotr, eemeans, 
+#   siar(now MixSIAR)
+# -------------------------------------------------------------------
 
-
-##load packages; note some may be redundant
-library(readr)
-library(tidyr)
-library(plyr)
-library(dplyr)
-library(MuMIn)
-library(visreg)
-library(car)
-library(lmerTest)
-library(RVAideMemoire)
-library(multcomp)
-library(sjPlot)
-library(grid)
-library(lubridate)
-library(DHARMa)
-library(effects)
-library(DMwR)
-library(lme4)
-library(numDeriv)
-library(RCurl) 
-library(ggplot2)
-library(reshape2)
-library(plyr)
-library(devtools)
-library(nlme)
-library(tidyverse)
-library(performance)
-library(see)
-library(qqplotr)
-library(emmeans)
-library(siar)
-
+##set theme
 theme_dumene <- theme_classic() +
   theme(axis.title.y = element_text(size = 18, face= "bold"),
         axis.title.x = element_text(size = 16, face= "bold"),
