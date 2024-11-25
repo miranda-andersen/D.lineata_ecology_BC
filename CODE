@@ -26,7 +26,7 @@
 #   siar(now MixSIAR)
 # -------------------------------------------------------------------
 
-##Set theme
+##set theme
 theme_dumene <- theme_classic() +
   theme(axis.title.y = element_text(size = 18, face= "bold"),
         axis.title.x = element_text(size = 16, face= "bold"),
