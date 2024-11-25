@@ -181,8 +181,91 @@ siarproportionbygroupplot(siarmodel)
 ##note that this data is available in the supplementary material of Andersen & Harley, 2025 
   code is available upon request
 
-####Mussel Faciliation Experiments
+####Mussel Facilitation Experiments
 
+##January 2021 initial attachment
+jan_6hr <- read.csv("cp_jan_6hr.csv")
+
+jan_6hr$Treatment <- as.factor(jan_6hr$Treatment)
+jan_6hr$Time <- as.Time(jan_6hr$Time)
+
+jan_6hr_4graph <- jan_6hr %>%
+  group_by(Treatment, Time) %>%
+  mutate(Time = as.POSIXct(hms::parse_hm(Time))) %>%
+  summarise(se = sd(Proportion)/sqrt(length(Proportion)), Anemones = mean(Proportion)) 
+
+a_jan <- ggplot(jan_6hr_4graph, aes(Time, Anemones)) + 
+  geom_point(aes(color = Treatment), position = position_dodge(200)) +
+  geom_line(aes(group = Treatment, color=Treatment), position = position_dodge(200), size = 0.8)+
+  labs(x="Hours", y="Mean number of individuals") + 
+  scale_color_manual(name="Treatment", labels=c("Mussels","Control"), values = c("darkblue", "darkorange2")) +
+  geom_errorbar(aes(ymin = Anemones - se, ymax = Anemones + se, color = Treatment), position = position_dodge(200), width = 1000, size = 0.8) +
+  scale_x_datetime(date_labels = c("6", "0", "1", "2", "3", "4", "5"), date_breaks = "1 hour") + scale_y_continuous(limits = c(0, 100)) +
+  expand_limits(y=c(0, 4))+
+  theme_dumene 
+
+##October 2020 2 month attachment
+
+oct_2mo <- read.csv("cp_oct_2mo.csv")
+
+oct_2month$Treatment <- as.factor(oct_2month$Treatment)
+oct_2month$Date <- as.Date(oct_2month$Date) 
+
+oct_2month_4graph <- oct_2month %>%
+  group_by(Treatment, Date) %>%
+  summarise(se = sd(Proportion)/sqrt(length(Proportion)), Anemones = mean(Proportion))
+
+b_oct <- ggplot(oct_2month_4graph, aes(Date, Anemones)) + 
+  geom_line(aes(group = Treatment, color=Treatment), position = position_dodge(0.3), size = 0.8)+
+  geom_point(aes(color = Treatment), position = position_dodge(0.3)) +
+  labs(x="Weeks", y="Mean number of individuals") + 
+  scale_x_date(date_labels = "%b %d")+
+  scale_color_manual(name="Treatment", breaks=c("mussels", "control"), labels=c("Mussels","Control"), values = c("darkblue", "darkorange2")) +
+  geom_errorbar(aes(ymin = Anemones - se, ymax = Anemones + se, color = Treatment),position = position_dodge(0.3), width = 5, size = 0.8) + scale_y_continuous(limits = c(0, 100)) +
+  expand_limits(y=c(0, 4))+
+  theme_dumene
+
+##May 2021 initial attachment
+
+may_6hr <- read.csv("cp_may_6hr.csv")
+
+may_6hr$Treatment <- as.factor(may_6hr$Treatment)
+may_6hr$Time <- as.Time(may_6hr$Time)
+
+may_6hr_4graph <- may_6hr %>%
+  group_by(Treatment, Time) %>%
+  mutate(Time = as.POSIXct(hms::parse_hm(Time))) %>%
+  summarise(se = sd(Proportion)/sqrt(length(Proportion)), Anemones = mean(Proportion)) 
+
+c_may <- ggplot(may_6hr_4graph, aes(Time, Anemones)) + 
+  geom_point(aes(color = Treatment), position = position_dodge(200)) +
+  geom_line(aes(group = Treatment, color=Treatment), position = position_dodge(200), size = 0.8)+
+  labs(x="Hours", y="Mean number of individuals") + 
+  scale_color_manual(name="Treatment", breaks= c("Mussel", "Control"), labels=c("Mussels","Control"), values = c("darkblue", "darkorange2")) +
+  geom_errorbar(aes(ymin = Anemones - se, ymax = Anemones + se, color = Treatment), position = position_dodge(200), width = 1000, size = 0.8) +
+  scale_x_datetime(date_labels = c("6", "0", "1", "2", "3", "4", "5"), date_breaks = "1 hour") + scale_y_continuous(limits = c(0, 100)) +
+  expand_limits(y=c(0, 6))+
+  theme_dumene 
+
+##May 2021 2 month attachment
+may_2mo <- read.csv("cp_may_2mo.csv")
+
+may_2mo$Treatment <- as.factor(may_2mo$Treatment)
+may_2mo$Date <- as.Date(may_2mo$Date) 
+
+may_2mo_4graph <- may_2mo %>%
+  group_by(Treatment, Date) %>%
+  summarise(se = sd(Proportion)/sqrt(length(Proportion)), Anemones = mean(Proportion))
+
+d_may <- ggplot(may_2mo_4graph, aes(Date, Anemones)) + 
+  geom_line(aes(group = Treatment, color=Treatment), position = position_dodge(0.3), size = 0.8)+
+  geom_point(aes(color = Treatment), position = position_dodge(0.3)) +
+  labs(x="Weeks", y="Mean number of individuals") + 
+  scale_x_date(date_labels = "%b %d") +
+  scale_color_manual(name="Treatment", breaks=c("Mussels", "Control"), labels=c("Mussels","Control"), values = c("darkblue", "darkorange2")) +
+  geom_errorbar(aes(ymin = Anemones - se, ymax = Anemones + se, color = Treatment),position = position_dodge(0.3), width = 5, size = 0.8) + scale_y_continuous(limits = c(0, 100)) +
+  expand_limits(y=c(0, 6))+
+  theme_dumene
 
 
 ####Anemone Density Manipulation Experiment
