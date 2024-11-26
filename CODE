@@ -267,6 +267,34 @@ d_may <- ggplot(may_2mo_4graph, aes(Date, Anemones)) +
   expand_limits(y=c(0, 6))+
   theme_dumene
 
+##linear mixed effects model for 6 hour data
+
+
+##linear mixed effects model for 2 month data
+
+mussel2 <-read.csv("cp_8weeks.csv")
+str(mussel2)
+
+mussel2$Treatment<-revalue(mussel2$Treatment, c("control"=1))
+mussel2$Treatment<-revalue(mussel2$Treatment, c("mussels"=2))
+
+mussel2$Season<-revalue(mussel2$Season, c("winter"=1))
+mussel2$Season<-revalue(mussel2$Season, c("summer"=2))
+
+mussel2$Treatment <- as.factor(mussel2$Treatment)
+mussel2$Anemones <- as.numeric(mussel2$Anemones)
+mussel2$Change <- as.numeric(mussel2$Change)
+mussel2$Time <- as.numeric(mussel2$Time)
+mussel2$Tidepool <- as.factor(mussel2$Tidepool)
+mussel2$Season <- as.factor(mussel2$Season)
+
+eightweeks <-lmer(Change~Treatment+Time+Season+Treatment:Time+Treatment:Season+(1|Tidepool), mussel2)
+
+summary(eightweeks)
+visreg(eightweeks)
+tab_model(eightweeks)
+
+check_model(eightweeks)
 
 ####Anemone Density Manipulation Experiment
 
