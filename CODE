@@ -267,10 +267,36 @@ d_may <- ggplot(may_2mo_4graph, aes(Date, Anemones)) +
   expand_limits(y=c(0, 6))+
   theme_dumene
 
-##linear mixed effects model for 6 hour data
+##linear mixed effects model for 6-hour data
 
+mussel1 <-read.csv("cp_6hr.csv")
+str(mussel1)
 
-##linear mixed effects model for 2 month data
+mussel1$Treatment<-revalue(mussel1$Treatment, c("control"=1))
+mussel1$Treatment<-revalue(mussel1$Treatment, c("mussels"=2))
+
+mussel1$Season<-revalue(mussel1$Season, c("winter"=1))
+mussel1$Season<-revalue(mussel1$Season, c("summer"=2))
+
+mussel1$Time <- gsub(":", "", mussel1$Time)
+
+mussel1$Treatment <- as.factor(mussel1$Treatment)
+mussel1$Anemones <- as.numeric(mussel1$Anemones)
+mussel1$Time <- as.numeric(mussel1$Time)
+mussel1$ID <- as.factor(mussel1$ID)
+mussel1$Season <- as.factor(mussel1$Season)
+
+view(mussel1)
+
+sixhours <-lmer(Anemones~Treatment+Time+Season+Treatment:Time+Season:Treatment+(1|ID), mussel1)
+
+summary(sixhours)
+visreg(sixhours)
+tab_model(sixhours)
+
+check_model(eightweeks)
+
+##linear mixed effects model for 2-month data
 
 mussel2 <-read.csv("cp_8weeks.csv")
 str(mussel2)
