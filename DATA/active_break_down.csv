@@ -1,0 +1,55 @@
+prey,response,percent,order
+Gammarus spp.,ingest,88.9,4
+Gammarus spp.,grab/reject,0,4
+Gammarus spp.,reject,11.1,4
+Littorina littoria,ingest,0,17
+Littorina littoria,grab/reject,66.7,17
+Littorina littoria,reject,33.3,17
+Aedes aegypti,ingest,11.1,12
+Aedes aegypti,grab/reject,66.7,12
+Aedes aegypti,reject,22.2,12
+Aedes aegypti (larvae),ingest,88.9,5
+Aedes aegypti (larvae),grab/reject,0,5
+Aedes aegypti (larvae),reject,11.1,5
+Gnorimosphaeroma oregonensis,ingest,55.6,7
+Gnorimosphaeroma oregonensis,grab/reject,33.3,7
+Gnorimosphaeroma oregonensis,reject,11.1,7
+Paranemertes peregrina,ingest,11.1,11
+Paranemertes peregrina,grab/reject,88.9,11
+Paranemertes peregrina,reject,0,11
+Hemigrapsus oregonensis,ingest,0,18
+Hemigrapsus oregonensis,grab/reject,44.4,18
+Hemigrapsus oregonensis,reject,55.6,18
+Amphiporus sp.,ingest,0,15
+Amphiporus sp.,grab/reject,100,15
+Amphiporus sp.,reject,0,15
+Emplectonema gracile,ingest,22.2,10
+Emplectonema gracile,grab/reject,77.8,10
+Emplectonema gracile,reject,0,10
+Glass beads (control),ingest,33.3,8
+Glass beads (control),grab/reject,44.5,8
+Glass beads (control),reject,22.2,8
+Caprella spp.,ingest,100,2
+Caprella spp.,grab/reject,0,2
+Caprella spp.,reject,0,2
+Pentidotea wosnesenskii (juvenile),ingest,100,1
+Pentidotea wosnesenskii (juvenile),grab/reject,0,1
+Pentidotea wosnesenskii (juvenile),reject,0,1
+Nucella lamellosa (eggs),ingest,0,14
+Nucella lamellosa (eggs),grab/reject,100,14
+Nucella lamellosa (eggs),reject,0,14
+Ulva lactuca,ingest,0,16
+Ulva lactuca,grab/reject,66.7,16
+Ulva lactuca,reject,33.3,16
+Aedes togoi,ingest,33.3,9
+Aedes togoi,grab/reject,33.4,9
+Aedes togoi,reject,33.3,9
+Aedes togoi (larvae),ingest,100,3
+Aedes togoi (larvae),grab/reject,0,3
+Aedes togoi (larvae),reject,0,3
+Chain-forming diatom spp.,ingest,0,13
+Chain-forming diatom spp.,grab/reject,100,13
+Chain-forming diatom spp.,reject,0,13
+Membranipora membranacea,ingest,66.7,6
+Membranipora membranacea,grab/reject,33.3,6
+Membranipora membranacea,reject,0,6

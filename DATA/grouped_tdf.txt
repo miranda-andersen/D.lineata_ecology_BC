@@ -1,0 +1,9 @@
+Source	Mean15N	SDd15N	Mean13C	SDd13C
+Isopod	3.4	0.4	2.6	0.3
+Amphipod	3.4	0.4	2.6	0.3
+Decapod	3.4	0.4	2.6	0.3
+Nemertean	3.4	0.4	2.6	0.3
+Gastropod	3.4	0.4	2.6	0.3
+Zooplankton	3.4	0.4	2.6	0.3
+Algae	0	0	0	0
+POM	0	0	0	0

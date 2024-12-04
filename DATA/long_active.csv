@@ -1,0 +1,43 @@
+prey,digestion,value,group
+Gammarus ,complete,88.9,1
+Gammarus ,partial,0,1
+Gammarus ,none,0,1
+Littorina ,complete,NA,10
+Littorina ,partial,NA,10
+Littorina ,none,NA,10
+Aedes ,complete,0,9
+Aedes ,partial,0,9
+Aedes ,none,11.1,9
+Aedes larvae,complete,11.1,5
+Aedes larvae,partial,55.6,5
+Aedes larvae,none,22.2,5
+Gnorimosphaeroma,complete,0,7
+Gnorimosphaeroma,partial,33.4,7
+Gnorimosphaeroma,none,22.2,7
+Paranemertes ,complete,11.1,2
+Paranemertes ,partial,0,2
+Paranemertes ,none,0,2
+Hemigrapsus ,complete,NA,11
+Hemigrapsus ,partial,NA,11
+Hemigrapsus ,none,NA,11
+Amphiporus ,complete,NA,12
+Amphiporus ,partial,NA,12
+Amphiporus ,none,NA,12
+Emplectonema ,complete,0,6
+Emplectonema ,partial,22.2,6
+Emplectonema ,none,0,6
+Glass beads,complete,0,8
+Glass beads,partial,0,8
+Glass beads,none,33.3,8
+Caprella ,complete,11.1,4
+Caprella ,partial,88.9,4
+Caprella ,none,0,4
+Pentidotea ,complete,33.3,3
+Pentidotea ,partial,66.7,3
+Pentidotea ,none,0,3
+Nucella eggs,complete,NA,13
+Nucella eggs,partial,NA,13
+Nucella eggs,none,NA,13
+Ulva,complete,NA,14
+Ulva,partial,NA,14
+Ulva,none,NA,14

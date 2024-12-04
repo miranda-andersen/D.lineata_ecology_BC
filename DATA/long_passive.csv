@@ -1,0 +1,52 @@
+prey,digestion,value,group
+Gammarus ,complete,NA,15
+Gammarus ,partial,NA,15
+Gammarus ,none,NA,15
+Littorina ,complete,NA,16
+Littorina ,partial,NA,16
+Littorina ,none,NA,16
+Aedes ,complete,NA,17
+Aedes ,partial,NA,17
+Aedes ,none,NA,17
+Aedes larvae,complete,0,7
+Aedes larvae,partial,17.3,7
+Aedes larvae,none,43.8,7
+Tigriopus ,complete,90,1
+Tigriopus ,partial,0,1
+Tigriopus ,none,0,1
+Artemia nauplii,complete,81.1,2
+Artemia nauplii,partial,0,2
+Artemia nauplii,none,0,2
+Gnorimosphaeroma,complete,11.1,6
+Gnorimosphaeroma,partial,11.1,6
+Gnorimosphaeroma,none,55.6,6
+Paranemertes ,complete,NA,8
+Paranemertes ,partial,NA,8
+Paranemertes ,none,NA,8
+Hemigrapsus ,complete,NA,9
+Hemigrapsus ,partial,NA,9
+Hemigrapsus ,none,NA,9
+Amphiporus ,complete,NA,10
+Amphiporus ,partial,NA,10
+Amphiporus ,none,NA,10
+Emplectonema ,complete,NA,11
+Emplectonema ,partial,NA,11
+Emplectonema ,none,NA,11
+Glass beads,complete,NA,12
+Glass beads,partial,NA,12
+Glass beads,none,NA,12
+Caprella ,complete,11.1,5
+Caprella ,partial,33.3,5
+Caprella ,none,0,5
+Pentidotea ,complete,22.2,4
+Pentidotea ,partial,22.2,4
+Pentidotea ,none,0,4
+Trematode cercariea,complete,29.5,3
+Trematode cercariea,partial,0,3
+Trematode cercariea,none,0,3
+Nucella eggs,complete,NA,13
+Nucella eggs,partial,NA,13
+Nucella eggs,none,NA,13
+Ulva,complete,NA,14
+Ulva,partial,NA,14
+Ulva,none,NA,14
