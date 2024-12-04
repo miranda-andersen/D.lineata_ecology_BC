@@ -5,7 +5,7 @@ This project was completed as part of M. Andersen's honours thesis in 2021 and i
 Code can be copy and pasted into the latest version of R Studio and run using the data files provided in the DATA folder. Any additional data or code associated with the project is available upon request.
 
 ## License  
-This project is licensed under the [License Name](LICENSE).  
+This project is licensed under the GNU General Public License v3.0.  
 
 ## Author(s)  
 Created by Miranda N. Andersen.
