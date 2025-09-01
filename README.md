@@ -11,4 +11,4 @@ This project is licensed under the GNU General Public License v3.0.
 Created by Miranda N. Andersen.
 
 ## Contact  
-For issues, please email andersenm@sun.ac.za or harley@zoology.ubc.ca. 
+For issues, please email miranda.andersn@gmail.com or harley@zoology.ubc.ca. 
